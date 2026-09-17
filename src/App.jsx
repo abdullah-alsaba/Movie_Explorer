@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import Footer from './components/Footer'
+import { fetchAllShows } from './services/tvmaze'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -14,21 +15,15 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    fetch('https://api.tvmaze.com/shows')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch shows')
-        }
-        return res.json()
-      })
+    fetchAllShows()
       .then((data) => {
         setAllShows(data.slice(0, 24))
         setFeaturedShows(data.slice(0, 8))
         setLoading(false)
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false)
-        toast.error('Unable to load shows. Please check your connection.')
+        toast.error(error.message || 'Unable to load shows. Please check your connection.')
       })
   }, [])
 
