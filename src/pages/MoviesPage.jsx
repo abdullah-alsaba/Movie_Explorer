@@ -33,6 +33,7 @@ export default function MoviesPage({
             onChange={onSearchChange}
             onSubmit={onSearchSubmit}
             onClear={onClearSearch}
+            loading={loading}
           />
         </div>
       </div>
@@ -89,17 +90,17 @@ export default function MoviesPage({
           </div>
           <h2 className="text-lg font-bold text-white mb-2">No movies found</h2>
           <p className="text-sm text-muted mb-6">
-            {searchQuery
-              ? `No results matching "${searchQuery}". Try searching with a different title or keyword.`
+            {isSearching
+              ? `We couldn't find any movies or shows matching "${searchQuery}". Please check your spelling or try another keyword.`
               : 'There are currently no movies to display.'}
           </p>
-          {searchQuery && (
+          {isSearching && (
             <button
               type="button"
               onClick={onClearSearch}
-              className="btn btn-secondary text-xs px-5 py-2 font-semibold"
+              className="btn btn-primary text-xs px-5 py-2.5 font-semibold"
             >
-              Clear Search
+              Clear Search & Browse All
             </button>
           )}
         </div>

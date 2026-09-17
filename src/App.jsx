@@ -18,6 +18,7 @@ function App() {
   const [isSearching, setIsSearching] = useState(false)
   const [searchLoading, setSearchLoading] = useState(false)
   const [searchError, setSearchError] = useState(null)
+  const [lastSearchedQuery, setLastSearchedQuery] = useState('')
 
   const handleRetry = () => {
     setLoading(true)
@@ -39,15 +40,18 @@ function App() {
   const handleSearchSubmit = (submittedQuery) => {
     const queryToSearch = (submittedQuery !== undefined ? submittedQuery : searchQuery).trim()
     if (!queryToSearch) {
-      setIsSearching(false)
-      setSearchResults([])
-      setSearchError(null)
+      handleClearSearch()
+      return
+    }
+
+    if (queryToSearch.toLowerCase() === lastSearchedQuery.toLowerCase() && isSearching) {
       return
     }
 
     setIsSearching(true)
     setSearchLoading(true)
     setSearchError(null)
+    setLastSearchedQuery(queryToSearch)
 
     searchShows(queryToSearch)
       .then((data) => {
@@ -70,6 +74,7 @@ function App() {
     setSearchResults([])
     setIsSearching(false)
     setSearchError(null)
+    setLastSearchedQuery('')
   }
 
   const handleSearchChange = (val) => {
