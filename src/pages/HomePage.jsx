@@ -1,5 +1,6 @@
 import Hero from '../components/Hero'
 import MovieCard from '../components/MovieCard'
+import MovieGridSkeleton from '../components/LoadingSkeleton'
 
 export default function HomePage({ onExplore, featuredShows = [], loading = false, onSelectShow }) {
   const features = [
@@ -62,14 +63,7 @@ export default function HomePage({ onExplore, featuredShows = [], loading = fals
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="aspect-2/3 w-full rounded-xl bg-surface animate-pulse border border-border"
-              />
-            ))}
-          </div>
+          <MovieGridSkeleton count={8} columns="home" />
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {featuredShows.map((show) => (

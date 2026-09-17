@@ -1,5 +1,6 @@
 import SearchBar from '../components/SearchBar'
 import MovieCard from '../components/MovieCard'
+import MovieGridSkeleton from '../components/LoadingSkeleton'
 
 export default function MoviesPage({
   shows = [],
@@ -39,23 +40,7 @@ export default function MoviesPage({
       </div>
 
       {loading && (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className="flex flex-col rounded-xl border border-border bg-surface overflow-hidden animate-pulse"
-            >
-              <div className="aspect-2/3 w-full bg-surface-raised" />
-              <div className="p-4 space-y-3">
-                <div className="h-3 w-1/3 rounded bg-border" />
-                <div className="h-4 w-3/4 rounded bg-border" />
-                <div className="pt-2">
-                  <div className="h-8 w-full rounded bg-border" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <MovieGridSkeleton count={15} columns="listing" />
       )}
 
       {!loading && error && (
