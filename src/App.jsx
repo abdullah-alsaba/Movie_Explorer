@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -36,6 +37,8 @@ function App() {
           </p>
         </article>
       </main>
+
+      <Footer onNavigate={setCurrentPage} />
     </div>
   )
 }
