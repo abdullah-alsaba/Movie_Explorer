@@ -1,6 +1,35 @@
+import { useEffect, useRef } from 'react'
 import { stripHtml, formatRating, formatYear, getShowImage } from '../services/tvmaze'
 
 export default function MovieDetailsModal({ show, isOpen, onClose }) {
+  const closeButtonRef = useRef(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
+
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      if (closeButtonRef.current) {
+        closeButtonRef.current.focus()
+      }
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [isOpen])
+
   if (!isOpen || !show) return null
 
   const title = show.name || 'Untitled'
@@ -16,28 +45,37 @@ export default function MovieDetailsModal({ show, isOpen, onClose }) {
   const officialSite = show.officialSite || null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-10"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="movie-modal-title"
+    >
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/85 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      <div className="relative flex flex-col w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border border-border bg-surface shadow-2xl text-ink z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div
+        className="relative flex flex-col w-full max-w-4xl max-h-[92vh] sm:max-h-[85vh] overflow-y-auto rounded-2xl border border-border bg-surface shadow-2xl text-ink z-10 animate-in fade-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
+          ref={closeButtonRef}
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-canvas/70 text-muted hover:text-white hover:bg-canvas border border-border transition-colors"
-          aria-label="Close modal"
+          className="absolute top-3.5 right-3.5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-canvas/80 text-muted hover:text-white hover:bg-canvas border border-border transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+          aria-label="Close details modal"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-6 sm:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-5 sm:p-8">
           <div className="md:col-span-5 flex flex-col items-center">
-            <div className="relative aspect-2/3 w-full max-w-sm rounded-xl overflow-hidden bg-surface-raised border border-border shadow-lg">
+            <div className="relative aspect-2/3 w-full max-w-xs sm:max-w-sm rounded-xl overflow-hidden bg-surface-raised border border-border shadow-lg">
               {imageUrl ? (
                 <img
                   src={imageUrl}
@@ -59,7 +97,7 @@ export default function MovieDetailsModal({ show, isOpen, onClose }) {
               >
                 <div className="flex flex-col items-center gap-2 text-muted">
                   <svg className="h-12 w-12 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5M5.25 4.5v15M18.75 4.5v15" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5M5.25 4.5v15M18.75 4.5v15" />
                   </svg>
                   <span className="text-xs font-medium">No Image Available</span>
                 </div>
@@ -71,7 +109,7 @@ export default function MovieDetailsModal({ show, isOpen, onClose }) {
                 href={officialSite}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-secondary w-full max-w-sm mt-4 text-xs font-semibold gap-2"
+                className="btn btn-secondary w-full max-w-xs sm:max-w-sm mt-4 text-xs font-semibold gap-2 min-h-10 focus-visible:outline-2 focus-visible:outline-accent"
               >
                 <span>Visit Official Site</span>
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -101,7 +139,7 @@ export default function MovieDetailsModal({ show, isOpen, onClose }) {
               )}
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
+            <h2 id="movie-modal-title" className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
               {title}
             </h2>
 
@@ -152,7 +190,7 @@ export default function MovieDetailsModal({ show, isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="btn btn-secondary text-xs px-5 py-2 font-semibold"
+            className="btn btn-secondary text-xs px-6 py-2.5 font-semibold min-h-10 focus-visible:outline-2 focus-visible:outline-accent"
           >
             Close
           </button>
