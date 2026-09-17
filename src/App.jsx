@@ -3,12 +3,15 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
+import MoviesPage from './pages/MoviesPage'
 import Footer from './components/Footer'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
+  const [allShows, setAllShows] = useState([])
   const [featuredShows, setFeaturedShows] = useState([])
-  const [loadingFeatured, setLoadingFeatured] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     fetch('https://api.tvmaze.com/shows')
@@ -19,12 +22,13 @@ function App() {
         return res.json()
       })
       .then((data) => {
+        setAllShows(data.slice(0, 24))
         setFeaturedShows(data.slice(0, 8))
-        setLoadingFeatured(false)
+        setLoading(false)
       })
       .catch(() => {
-        setLoadingFeatured(false)
-        toast.error('Unable to load featured shows. Please check your connection.')
+        setLoading(false)
+        toast.error('Unable to load shows. Please check your connection.')
       })
   }, [])
 
@@ -53,25 +57,23 @@ function App() {
           <HomePage
             onExplore={() => setCurrentPage('movies')}
             featuredShows={featuredShows}
-            loading={loadingFeatured}
+            loading={loading}
             onSelectShow={handleShowDetails}
           />
         )}
 
         {currentPage === 'movies' && (
-          <div className="container-app section-y">
-            <h1 className="heading-xl mb-4">Movie Listing</h1>
-            <p className="text-body mb-6">
-              Browse and search shows from TVMaze.
-            </p>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setCurrentPage('home')}
-            >
-              Back to Home
-            </button>
-          </div>
+          <MoviesPage
+            shows={allShows}
+            loading={loading}
+            error={null}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onSearchSubmit={(q) => toast.info(`Search submitted for "${q}"`)}
+            onClearSearch={() => setSearchQuery('')}
+            onRetry={() => toast.info('Retrying...')}
+            onSelectShow={handleShowDetails}
+          />
         )}
 
         {currentPage === 'about' && (
