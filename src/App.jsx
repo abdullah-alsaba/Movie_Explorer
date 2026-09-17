@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
+import Hero from './components/Hero'
 import Footer from './components/Footer'
 
 function App() {
@@ -9,33 +10,53 @@ function App() {
     <div className="min-h-screen flex flex-col bg-canvas text-ink">
       <Navbar currentPage={currentPage} onNavigate={setCurrentPage} />
 
-      <main className="container-app section-y flex-1">
-        <p className="text-caption mb-3">MovieExplorer</p>
-        <h1 className="heading-xl mb-3">Discover Movies You'll Love</h1>
-        <p className="text-body mb-8 max-w-xl">
-          Explore movies and shows from around the world, search for your
-          favorites, and discover something worth watching.
-        </p>
+      <main className="flex-1">
+        {currentPage === 'home' && (
+          <div>
+            <Hero onExplore={() => setCurrentPage('movies')} />
+            <section className="container-app section-y">
+              <p className="text-caption mb-3">MovieExplorer Showcase</p>
+              <article className="card max-w-sm p-5">
+                <h2 className="heading-md mb-2">Ready to explore</h2>
+                <p className="text-caption">
+                  Discover top-rated series and films. Click "Explore Movies" above to browse the collection.
+                </p>
+              </article>
+            </section>
+          </div>
+        )}
 
-        <div className="mb-10 flex flex-wrap gap-3">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => setCurrentPage('movies')}
-          >
-            Explore Movies
-          </button>
-          <button type="button" className="btn btn-secondary">
-            Learn More
-          </button>
-        </div>
+        {currentPage === 'movies' && (
+          <div className="container-app section-y">
+            <h1 className="heading-xl mb-4">Movie Listing</h1>
+            <p className="text-body mb-6">
+              Browse and search shows from TVMaze.
+            </p>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setCurrentPage('home')}
+            >
+              Back to Home
+            </button>
+          </div>
+        )}
 
-        <article className="card max-w-sm p-5">
-          <h2 className="heading-md mb-2">Sample card</h2>
-          <p className="text-caption">
-            Cards, buttons, and type styles from the MovieExplorer design system. Current page: <span className="text-ink font-semibold capitalize">{currentPage}</span>
-          </p>
-        </article>
+        {currentPage === 'about' && (
+          <div className="container-app section-y">
+            <h1 className="heading-xl mb-4">About MovieExplorer</h1>
+            <p className="text-body mb-6">
+              A responsive, cinematic React application powered by the TVMaze API.
+            </p>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setCurrentPage('home')}
+            >
+              Back to Home
+            </button>
+          </div>
+        )}
       </main>
 
       <Footer onNavigate={setCurrentPage} />
