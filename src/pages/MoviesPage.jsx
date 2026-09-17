@@ -6,6 +6,7 @@ export default function MoviesPage({
   loading = false,
   error = null,
   searchQuery = '',
+  isSearching = false,
   onSearchChange,
   onSearchSubmit,
   onClearSearch,
@@ -106,16 +107,27 @@ export default function MoviesPage({
 
       {!loading && !error && shows.length > 0 && (
         <div>
-          <div className="mb-6 flex items-center justify-between border-b border-[#2a2a32] pb-4">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#dc143c]" />
-              <p className="text-sm font-medium text-[#f5f5f5]">
-                {searchQuery ? `Search Results for "${searchQuery}"` : 'All Available Shows'}
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <p className="text-sm font-medium text-ink">
+                {isSearching ? `Search Results for "${searchQuery}"` : 'All Available Shows'}
               </p>
             </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#16161a] border border-[#2a2a32] text-[#9ca3af]">
-              {shows.length} {shows.length === 1 ? 'show' : 'shows'}
-            </span>
+            <div className="flex items-center gap-2">
+              {isSearching && (
+                <button
+                  type="button"
+                  onClick={onClearSearch}
+                  className="text-xs font-medium text-accent hover:underline"
+                >
+                  Show All Shows
+                </button>
+              )}
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface border border-border text-muted">
+                {shows.length} {shows.length === 1 ? 'show' : 'shows'}
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

@@ -5,7 +5,7 @@ import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import Footer from './components/Footer'
-import { fetchAllShows } from './services/tvmaze'
+import { fetchAllShows, searchShows } from './services/tvmaze'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -14,6 +14,10 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const [isSearching, setIsSearching] = useState(false)
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [searchError, setSearchError] = useState(null)
 
   const handleRetry = () => {
     setLoading(true)
@@ -30,6 +34,51 @@ function App() {
         setLoading(false)
         toast.error(errorMsg)
       })
+  }
+
+  const handleSearchSubmit = (submittedQuery) => {
+    const queryToSearch = (submittedQuery !== undefined ? submittedQuery : searchQuery).trim()
+    if (!queryToSearch) {
+      setIsSearching(false)
+      setSearchResults([])
+      setSearchError(null)
+      return
+    }
+
+    setIsSearching(true)
+    setSearchLoading(true)
+    setSearchError(null)
+
+    searchShows(queryToSearch)
+      .then((data) => {
+        setSearchResults(data)
+        setSearchLoading(false)
+        if (data.length === 0) {
+          toast.info(`No shows found for "${queryToSearch}"`)
+        }
+      })
+      .catch((err) => {
+        const errorMsg = err?.message || 'Search request failed. Please try again.'
+        setSearchError(errorMsg)
+        setSearchLoading(false)
+        toast.error(errorMsg)
+      })
+  }
+
+  const handleClearSearch = () => {
+    setSearchQuery('')
+    setSearchResults([])
+    setIsSearching(false)
+    setSearchError(null)
+  }
+
+  const handleSearchChange = (val) => {
+    setSearchQuery(val)
+    if (!val.trim() && isSearching) {
+      setIsSearching(false)
+      setSearchResults([])
+      setSearchError(null)
+    }
   }
 
   useEffect(() => {
@@ -88,14 +137,15 @@ function App() {
 
         {currentPage === 'movies' && (
           <MoviesPage
-            shows={allShows}
-            loading={loading}
-            error={error}
+            shows={isSearching ? searchResults : allShows}
+            loading={isSearching ? searchLoading : loading}
+            error={isSearching ? searchError : error}
             searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            onSearchSubmit={(q) => toast.info(`Search submitted for "${q}"`)}
-            onClearSearch={() => setSearchQuery('')}
-            onRetry={handleRetry}
+            isSearching={isSearching}
+            onSearchChange={handleSearchChange}
+            onSearchSubmit={handleSearchSubmit}
+            onClearSearch={handleClearSearch}
+            onRetry={isSearching ? () => handleSearchSubmit(searchQuery) : handleRetry}
             onSelectShow={handleShowDetails}
           />
         )}
