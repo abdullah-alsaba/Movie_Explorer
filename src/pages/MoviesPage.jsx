@@ -1,6 +1,8 @@
 import SearchBar from '../components/SearchBar'
 import MovieCard from '../components/MovieCard'
 import MovieGridSkeleton from '../components/LoadingSkeleton'
+import ErrorState from '../components/ErrorState'
+import EmptyState from '../components/EmptyState'
 
 export default function MoviesPage({
   shows = [],
@@ -44,51 +46,24 @@ export default function MoviesPage({
       )}
 
       {!loading && error && (
-        <div className="rounded-2xl border border-border bg-surface p-10 text-center max-w-md mx-auto my-8">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-500/10 text-rose-500 mb-4">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-          </div>
-          <h2 className="text-lg font-bold text-white mb-2">Something went wrong</h2>
-          <p className="text-sm text-muted mb-6">
-            {error || 'Unable to load movies right now. Please try again.'}
-          </p>
-          {onRetry && (
-            <button
-              type="button"
-              onClick={onRetry}
-              className="btn btn-primary text-xs px-5 py-2 font-semibold"
-            >
-              Try Again
-            </button>
-          )}
-        </div>
+        <ErrorState
+          title="Something went wrong"
+          message={error || 'Unable to load movies right now.'}
+          onRetry={onRetry}
+        />
       )}
 
       {!loading && !error && shows.length === 0 && (
-        <div className="rounded-2xl border border-border bg-surface p-10 text-center max-w-md mx-auto my-8">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-border text-muted mb-4">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <h2 className="text-lg font-bold text-white mb-2">No movies found</h2>
-          <p className="text-sm text-muted mb-6">
-            {isSearching
-              ? `We couldn't find any movies or shows matching "${searchQuery}". Please check your spelling or try another keyword.`
-              : 'There are currently no movies to display.'}
-          </p>
-          {isSearching && (
-            <button
-              type="button"
-              onClick={onClearSearch}
-              className="btn btn-primary text-xs px-5 py-2.5 font-semibold"
-            >
-              Clear Search & Browse All
-            </button>
-          )}
-        </div>
+        <EmptyState
+          title="No movies found"
+          message={
+            isSearching
+              ? `Try searching with a different title or keyword. No matches for "${searchQuery}".`
+              : 'Try searching with a different title or keyword.'
+          }
+          onClear={onClearSearch}
+          actionText={isSearching ? 'Clear Search' : undefined}
+        />
       )}
 
       {!loading && !error && shows.length > 0 && (
