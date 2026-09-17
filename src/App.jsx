@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
+import AboutPage from './pages/AboutPage'
 import MovieDetailsModal from './components/MovieDetailsModal'
 import Footer from './components/Footer'
 import { fetchAllShows, searchShows } from './services/tvmaze'
@@ -158,19 +159,7 @@ function App() {
         )}
 
         {currentPage === 'about' && (
-          <div className="container-app section-y">
-            <h1 className="heading-xl mb-4">About MovieExplorer</h1>
-            <p className="text-body mb-6">
-              A responsive, cinematic React application powered by the TVMaze API.
-            </p>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setCurrentPage('home')}
-            >
-              Back to Home
-            </button>
-          </div>
+          <AboutPage onExplore={() => setCurrentPage('movies')} />
         )}
       </main>
 

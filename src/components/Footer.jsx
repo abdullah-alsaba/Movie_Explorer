@@ -8,10 +8,9 @@ export default function Footer({ onNavigate }) {
 
   return (
     <footer className="mt-auto border-t border-border bg-surface text-muted">
-      <div className="container-app py-10 md:py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
-          {/* Brand & Mission */}
-          <div className="space-y-3 md:col-span-2">
+      <div className="container-app py-8 sm:py-12">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="space-y-3 sm:col-span-2">
             <div className="flex items-center gap-2.5">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
                 <svg
@@ -27,18 +26,17 @@ export default function Footer({ onNavigate }) {
                 Movie<span className="text-accent">Explorer</span>
               </span>
             </div>
-            <p className="max-w-md text-sm leading-relaxed text-muted">
+            <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted">
               Discover movies and television shows from around the world. Search for your
               favorites, inspect detailed casts and air dates, and explore curated entertainment.
             </p>
           </div>
 
-          {/* Navigation Links */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold tracking-wider uppercase text-ink">
+            <h3 className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-ink">
               Navigation
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-xs sm:text-sm">
               <li>
                 <button
                   type="button"
@@ -69,12 +67,11 @@ export default function Footer({ onNavigate }) {
             </ul>
           </div>
 
-          {/* Attribution & Links */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold tracking-wider uppercase text-ink">
+            <h3 className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-ink">
               Resources
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-xs sm:text-sm">
               <li>
                 <a
                   href="https://www.tvmaze.com/api"
@@ -127,7 +124,6 @@ export default function Footer({ onNavigate }) {
           </div>
         </div>
 
-        {/* Bottom copyright line */}
         <div className="mt-8 border-t border-border pt-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-muted">
           <p>© 2026 MovieExplorer. All rights reserved.</p>
           <p>Powered by TVMaze public REST API.</p>
