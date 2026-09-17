@@ -105,14 +105,28 @@ export default function MoviesPage({
       )}
 
       {!loading && !error && shows.length > 0 && (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {shows.map((show) => (
-            <MovieCard
-              key={show.id}
-              show={show}
-              onSelect={onSelectShow}
-            />
-          ))}
+        <div>
+          <div className="mb-6 flex items-center justify-between border-b border-[#2a2a32] pb-4">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#dc143c]" />
+              <p className="text-sm font-medium text-[#f5f5f5]">
+                {searchQuery ? `Search Results for "${searchQuery}"` : 'All Available Shows'}
+              </p>
+            </div>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#16161a] border border-[#2a2a32] text-[#9ca3af]">
+              {shows.length} {shows.length === 1 ? 'show' : 'shows'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {shows.map((show) => (
+              <MovieCard
+                key={show.id}
+                show={show}
+                onSelect={onSelectShow}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

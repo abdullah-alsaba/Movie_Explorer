@@ -12,19 +12,48 @@ function App() {
   const [allShows, setAllShows] = useState([])
   const [featuredShows, setFeaturedShows] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
 
-  useEffect(() => {
+  const handleRetry = () => {
+    setLoading(true)
+    setError(null)
     fetchAllShows()
       .then((data) => {
-        setAllShows(data.slice(0, 24))
+        setAllShows(data)
         setFeaturedShows(data.slice(0, 8))
         setLoading(false)
       })
-      .catch((error) => {
+      .catch((err) => {
+        const errorMsg = err?.message || 'Unable to load shows. Please check your connection.'
+        setError(errorMsg)
         setLoading(false)
-        toast.error(error.message || 'Unable to load shows. Please check your connection.')
+        toast.error(errorMsg)
       })
+  }
+
+  useEffect(() => {
+    let ignore = false
+    fetchAllShows()
+      .then((data) => {
+        if (!ignore) {
+          setAllShows(data)
+          setFeaturedShows(data.slice(0, 8))
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          const errorMsg = err?.message || 'Unable to load shows. Please check your connection.'
+          setError(errorMsg)
+          setLoading(false)
+          toast.error(errorMsg)
+        }
+      })
+
+    return () => {
+      ignore = true
+    }
   }, [])
 
   const handleShowDetails = (show) => {
@@ -61,12 +90,12 @@ function App() {
           <MoviesPage
             shows={allShows}
             loading={loading}
-            error={null}
+            error={error}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             onSearchSubmit={(q) => toast.info(`Search submitted for "${q}"`)}
             onClearSearch={() => setSearchQuery('')}
-            onRetry={() => toast.info('Retrying...')}
+            onRetry={handleRetry}
             onSelectShow={handleShowDetails}
           />
         )}
