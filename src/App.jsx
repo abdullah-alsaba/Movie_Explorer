@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
+import MovieDetailsModal from './components/MovieDetailsModal'
 import Footer from './components/Footer'
 import { fetchAllShows, searchShows } from './services/tvmaze'
 
@@ -19,6 +20,7 @@ function App() {
   const [searchLoading, setSearchLoading] = useState(false)
   const [searchError, setSearchError] = useState(null)
   const [lastSearchedQuery, setLastSearchedQuery] = useState('')
+  const [selectedShow, setSelectedShow] = useState(null)
 
   const handleRetry = () => {
     setLoading(true)
@@ -111,7 +113,7 @@ function App() {
   }, [])
 
   const handleShowDetails = (show) => {
-    toast.info(`Viewing details for: ${show.name} (${show.premiered ? show.premiered.slice(0, 4) : 'N/A'})`)
+    setSelectedShow(show)
   }
 
   return (
@@ -171,6 +173,12 @@ function App() {
           </div>
         )}
       </main>
+
+      <MovieDetailsModal
+        show={selectedShow}
+        isOpen={Boolean(selectedShow)}
+        onClose={() => setSelectedShow(null)}
+      />
 
       <Footer onNavigate={setCurrentPage} />
     </div>
