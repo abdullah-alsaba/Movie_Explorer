@@ -4,13 +4,15 @@
 
 **MovieExplorer** is a modern, responsive entertainment discovery web application built with React. It allows users to browse a collection of television shows, search for specific titles, and explore detailed information through an interactive modal experience.
 
-The application uses the **TVMaze REST API** to provide real-time show information and is designed with a clean cinematic interface that works seamlessly across mobile, tablet, and desktop devices.
+The application uses the **TVMaze REST API** to provide real-time show information and features a clean cinematic interface designed to work seamlessly across mobile, tablet, and desktop devices.
 
 ---
 
 ## 🌐 Live Demo
 
-🔗 **Live Website:** [Add your live URL here]
+🔗 **Live Website:** [MovieExplorer](https://movie-explorer-two-liart.vercel.app/)
+
+🔗 **Source Code:** [GitHub Repository](https://github.com/abdullah-alsaba/Movie_Explorer)
 
 ---
 
@@ -19,10 +21,10 @@ The application uses the **TVMaze REST API** to provide real-time show informati
 * 🎬 Browse a large collection of TV shows
 * 🔍 Search shows by title or keyword
 * ⭐ View ratings and show metadata
-* 📅 Display premiere/release information
+* 📅 Display premiere dates
 * 🎭 Explore genres and categories
 * 📖 Read show summaries and descriptions
-* 🖼️ Responsive movie/show posters with fallback handling
+* 🖼️ Responsive show posters with fallback handling
 * 🪟 Interactive details modal
 * 📱 Fully responsive across mobile, tablet, and desktop
 * ⚡ Fast and lightweight React application
@@ -184,7 +186,7 @@ src/
 
 ## 📱 Responsive Design
 
-MovieExplorer is designed with a responsive-first approach.
+MovieExplorer follows a responsive-first approach.
 
 ### Mobile
 
@@ -270,13 +272,13 @@ The goal is to make discovering something to watch feel simple and enjoyable.
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/abdullah-alsaba/Movie_Explorer.git
 ```
 
 ### 2. Navigate to the project
 
 ```bash
-cd movie-explorer
+cd Movie_Explorer
 ```
 
 ### 3. Install dependencies
@@ -324,15 +326,15 @@ Potential future improvements could include:
 * 🔥 Trending and popular categories
 * 🌍 More detailed discovery filters
 
-These features are outside the current scope of the application but could extend MovieExplorer into a more comprehensive entertainment discovery platform.
+These features could extend MovieExplorer into a more comprehensive entertainment discovery platform.
 
 ---
 
 ## 👨‍💻 Developer
 
-**Abdullah Al Saba**
+### Abdullah Al Saba
 
-Frontend / MERN Stack Developer
+**Frontend / MERN Stack Developer**
 
 * GitHub: [abdullah-alsaba](https://github.com/abdullah-alsaba)
 * LinkedIn: [Abdullah Al Saba](https://www.linkedin.com/in/abdullah-alsaba/)
@@ -351,6 +353,3 @@ Show data is provided by the public [TVMaze API](https://www.tvmaze.com/api).
 <p align="center">
   Built with React, curiosity, and a love for great stories. 🎬
 </p>
-```
-
-**একটা জিনিস খেয়াল রাখবে:** README-তে `YOUR_REPOSITORY_URL` আর `Add your live URL here` তোমার actual GitHub repo এবং Vercel URL দিয়ে replace করবে। এছাড়া README-তে **“Assignment 2”, “Foundation Program”, “Student Project”** এসব না রাখাই ভালো—portfolio project হিসেবে অনেক cleaner দেখাবে।
