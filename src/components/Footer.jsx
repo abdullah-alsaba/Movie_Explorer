@@ -1,17 +1,12 @@
-export default function Footer({ onNavigate }) {
-  const handleNavClick = (page) => {
-    if (onNavigate) {
-      onNavigate(page)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }
+import { Link } from "react-router-dom";
 
+export default function Footer() {
   return (
     <footer className="mt-auto border-t border-border bg-surface text-muted">
       <div className="container-app py-8 sm:py-12">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div className="space-y-3 sm:col-span-2">
-            <div className="flex items-center gap-2.5">
+            <Link to="/" className="flex items-center gap-2.5 w-fit">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
                 <svg
                   className="h-4 w-4 fill-current"
@@ -25,10 +20,11 @@ export default function Footer({ onNavigate }) {
               <span className="text-lg font-bold tracking-tight text-ink">
                 Movie<span className="text-accent">Explorer</span>
               </span>
-            </div>
+            </Link>
             <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted">
-              Discover movies and television shows from around the world. Search for your
-              favorites, inspect detailed casts and air dates, and explore curated entertainment.
+              Discover movies and television shows from around the world. Search
+              for your favorites, inspect detailed casts and air dates, and
+              explore curated entertainment.
             </p>
           </div>
 
@@ -38,31 +34,25 @@ export default function Footer({ onNavigate }) {
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('home')}
-                  className="transition-colors hover:text-white"
-                >
+                <Link to="/" className="transition-colors hover:text-white">
                   Home
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('movies')}
+                <Link
+                  to="/movies"
                   className="transition-colors hover:text-white"
                 >
                   Browse Movies
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('about')}
+                <Link
+                  to="/about"
                   className="transition-colors hover:text-white"
                 >
                   About Project
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -98,7 +88,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/abdullah-alsaba/Movie_Explorer"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
@@ -130,5 +120,5 @@ export default function Footer({ onNavigate }) {
         </div>
       </div>
     </footer>
-  )
+  );
 }
